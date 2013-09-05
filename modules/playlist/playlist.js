@@ -6,12 +6,13 @@ define(['utils', 'track'], 'playlist', function (Utils, Track) {
         var trackNode = Utils.getParentByClassName(this, 'track'),
             trackId = trackNode.dataset.id;
 
+        trackNode.classList.add('track_progress_yes');
+
         SC.put(
             currentPlaylist.uri,
             {
                 playlist: {
                     tracks: currentPlaylist.tracks.filter(function (track) {
-                        console.log(track.id, trackId);
                         return track.id !== Number(trackId);
                     }).map(function (track) {
                         return {
@@ -21,7 +22,6 @@ define(['utils', 'track'], 'playlist', function (Utils, Track) {
                 }
             },
             function () {
-                console.log(arguments);
                 trackNode.parentNode.removeChild(trackNode);
             }
         );
