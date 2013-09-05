@@ -1,5 +1,31 @@
-define('playlist', function () {
-    var PLAYLIST_NAME = 'Playlist';
+define(['utils', 'track'], 'playlist', function (Utils, Track) {
+    var PLAYLIST_NAME = 'Playlist',
+        currentPlaylist;
+
+    Utils.delegate('.playlist .button_type_remove', 'touchend', function () {
+        var trackNode = Utils.getParentByClassName(this, 'track'),
+            trackId = trackNode.dataset.id;
+
+        SC.put(
+            currentPlaylist.uri,
+            {
+                playlist: {
+                    tracks: currentPlaylist.tracks.filter(function (track) {
+                        console.log(track.id, trackId);
+                        return track.id !== Number(trackId);
+                    }).map(function (track) {
+                        return {
+                            id: track.id
+                        };
+                    })
+                }
+            },
+            function () {
+                console.log(arguments);
+                trackNode.parentNode.removeChild(trackNode);
+            }
+        );
+    });
 
     return {
         get: function (handler) {
@@ -15,6 +41,16 @@ define('playlist', function () {
                         }, handler);
                     });
                 }
+            });
+        },
+        html: function (handler) {
+            this.get(function (playlist) {
+                currentPlaylist = playlist;
+                handler([
+                    '<div class="playlist">',
+                    playlist.tracks.map(Track.html).join(''),
+                    '</div>'
+                ].join(''));
             });
         }
     };

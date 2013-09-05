@@ -1,7 +1,4 @@
-define(['utils'], 'track', function (Utils) {
-        Utils.delegate('.track .button_type_remove', 'touchend', function () {
-            console.log(Utils.getParentByClassName(this, 'track').dataset.id);
-        });
+define('track', function () {
     return {
         html: function (track) {
             return [
