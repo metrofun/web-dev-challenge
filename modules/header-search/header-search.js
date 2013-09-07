@@ -18,7 +18,7 @@ define(['utils', 'playlist'], 'header-search', function(Utils, Playlist) {
             '</li>'
         ].join('')
 
-        SC.get('/tracks', {q: searchValue, limit: 10}, function(tracks) {
+        SC.get('/tracks', {q: searchValue, limit: 10, streamable: true}, function(tracks) {
             if (tracks.length && searchValue === currentSearchValue) {
                 suggestNode.innerHTML = tracks.map(function (track) {
                     return [

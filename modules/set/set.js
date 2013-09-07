@@ -40,7 +40,7 @@ define('set', function () {
                     if (playlists[0] && playlists[0].title === this.PLAYLIST_NAME) {
                         callback(playlists[0]);
                     } else {
-                        SC.get('/tracks', {q: 'eminem'}, function(tracks) {
+                        SC.get('/tracks', {q: 'eminem', streamable: true}, function(tracks) {
                             SC.post('/playlists', {
                                 playlist: { title: PLAYLIST_NAME, tracks: tracks }
                             }, callback);
