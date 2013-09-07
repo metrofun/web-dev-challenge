@@ -1,5 +1,25 @@
-define('track', function () {
-    return {
+define(['set', 'utils', 'player'], 'track', function (Set, Utils, Player) {
+    var Track = {
+        /**
+         * @param {String|Number|Object} track Track node, or track ID
+         */
+        play: function (track) {
+            var trackId, trackNode;
+
+            if (typeof track === 'object') {
+                trackNode = track;
+                trackId = trackNode.dataset.id;
+            } else {
+                trackId = track;
+                trackNode = document.querySelector('.track[data-id="' + trackId + '"]');
+            }
+
+            Player.play(trackId, function () {
+                trackNode.classList.add('track_state_playing');
+            }, function () {
+                trackNode.classList.remove('track_state_playing');
+            });
+        },
         html: function (track) {
             return [
                 '<div class="track" data-id="', track.id, '">',
@@ -19,5 +39,24 @@ define('track', function () {
                 '</div>'
             ].join('');
         }
-    }
+    };
+
+    Utils.delegate('.track .button_type_play', 'touchend', function () {
+        var trackNode = Utils.getParentByClassName(this, 'track');
+
+        Track.play(trackNode);
+    });
+
+    Utils.delegate('.playlist .button_type_remove', 'touchend', function () {
+        var trackNode = Utils.getParentByClassName(this, 'track'),
+            trackId = trackNode.dataset.id;
+
+        trackNode.classList.add('track_state_removal');
+
+        Set.removeTrack(trackId, function () {
+            trackNode.parentNode.removeChild(trackNode);
+        });
+    });
+
+    return Track;
 });
