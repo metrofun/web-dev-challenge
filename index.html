@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="http://connect.soundcloud.com/sdk.js"></script>
-        <script src="script.js"></script>
+        <meta charset="utf-8">
+        <title>SoundCloud Player</title>
+        <!-- intentionally not minimized -->
         <link rel="stylesheet" href="style.css" />
     </head>
     <body class="app">
         <header class="header">
             <div class="header__logo">
-                <!-- TODO -->
-                <img src="https://a2.sndcdn.com/assets/images/header/logo-cca39ee6.png" alt="SoundCloud" />
+                <!-- TODO "content: -webkit-image-set" for high DPI -->
+                <img src="/modules/header/header__logo.png" alt="SoundCloud" />
             </div>
             <div class="header-search">
                 <input class="header-search__input" type="search" placeholder="Search" />
@@ -18,5 +19,8 @@
         </header>
         <div class="app__playlist">
         </div>
+        <script src="http://connect.soundcloud.com/sdk.js"></script>
+        <!-- intentionally not minimized -->
+        <script src="script.js"></script>
     </body>
 </html>

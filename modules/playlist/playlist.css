@@ -1,3 +1,8 @@
 .playlist {
     margin-top: 48px;
+    position: relative;
+}
+.playlist__placeholder {
+    height: 65px;
+    box-sizing: border-box;
 }

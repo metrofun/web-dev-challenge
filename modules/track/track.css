@@ -1,8 +1,14 @@
 .track {
+    background-color: white;
+    width: 100%;
     padding: 5px 6px;
+    box-sizing: border-box;
     position: relative;
     user-select: none;
     -webkit-user-select: none;
+}
+.track_state_move {
+    z-index: 1;
 }
 @-webkit-keyframes removal {
     0%, 50%, 100% {opacity: 1;}
@@ -26,6 +32,7 @@
 }
 .track-logo {
     display: inline-block;
+    background-color: #555;
 }
 .track-logo__image {
     width: 50px;
