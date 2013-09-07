@@ -3,13 +3,12 @@
         pendingRequires = [];
 
     function rerunPendingRequires() {
-        var length = pendingRequires.length,
-            pendingRequire;
+        var queueCopy = pendingRequires.slice(0);
 
-        while (length--) {
-            pendingRequire = pendingRequires.shift();
+        pendingRequires = [];
+        queueCopy.forEach(function (pendingRequire) {
             global.require(pendingRequire.dependences, pendingRequire.callback);
-        }
+        });
     }
 
 
@@ -17,7 +16,7 @@
         var resolvedDeps = [];
 
         dependences.forEach(function (moduleName) {
-            if (modules[moduleName]) {
+            if (modules.hasOwnProperty(moduleName)) {
                 resolvedDeps.push(modules[moduleName]);
             }
         });
