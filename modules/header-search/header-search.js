@@ -1,4 +1,4 @@
-define(['utils'], 'header-search', function(Utils) {
+define(['utils', 'playlist'], 'header-search', function(Utils, Playlist) {
     var SUGGEST_LIMIT = 10,
         currentSearchValue;
 
@@ -22,7 +22,9 @@ define(['utils'], 'header-search', function(Utils) {
             if (tracks.length && searchValue === currentSearchValue) {
                 suggestNode.innerHTML = tracks.map(function (track) {
                     return [
-                        '<li class="header-search__suggest-item">',
+                        '<li class="header-search__suggest-item" data-track="',
+                        escape(JSON.stringify(track)),
+                        '">',
                         track.title,
                         track.title,
                         '</li>'
@@ -31,6 +33,10 @@ define(['utils'], 'header-search', function(Utils) {
             }
         });
     }
+
+    Utils.delegate('.header-search__suggest-item', 'touchstart', function () {
+        Playlist.add(JSON.parse(unescape(this.dataset.track)));
+    });
     Utils.delegate('.header-search__input', 'input', suggestItems);
     Utils.delegate('.header-search__input', 'touchstart', function () {
         this.onblur = clearSearch;

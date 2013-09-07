@@ -1,4 +1,4 @@
-define(['track', 'set'], 'playlist', function (Track, Set) {
+define(['track', 'set', 'utils'], 'playlist', function (Track, Set, Utils) {
     return {
         html: function (handler) {
             Set.get(function (playlist) {
@@ -8,6 +8,16 @@ define(['track', 'set'], 'playlist', function (Track, Set) {
                     '</div>'
                 ].join(''));
             }.bind(this));
+        },
+        add: function (track) {
+            var playListNode = document.querySelector('.playlist');
+
+            Set.prependTrack(track, function () {
+                playListNode.insertBefore(
+                    Utils.createHtmlElement(Track.html(track)),
+                    playListNode.firstChild
+                );
+            });
         }
     };
 });

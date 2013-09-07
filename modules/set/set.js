@@ -1,22 +1,29 @@
 define('set', function () {
     return {
         PLAYLIST_NAME: 'Playlist',
-        removeTrack: function (trackId, onRemove) {
+        putTracks: function (tracks, onPut) {
+            this._playlist.tracks = tracks;
             SC.put(
                 this._playlist.uri,
                 {
                     playlist: {
-                        tracks: this._playlist.tracks.filter(function (track) {
-                            return track.id !== Number(trackId);
-                        }).map(function (track) {
+                        tracks: tracks.map(function (track) {
                             return {
                                 id: track.id
                             };
                         })
                     }
                 },
-                onRemove
+                onPut
             );
+        },
+        prependTrack: function (track, onAdd) {
+            this.putTracks([track].concat(this._playlist.tracks), onAdd);
+        },
+        removeTrack: function (trackId, onRemove) {
+            this.putTracks(this._playlist.tracks.filter(function (track) {
+                return track.id !== Number(trackId);
+            }), onAdd);
         },
         get: function (handler) {
             var self = this;

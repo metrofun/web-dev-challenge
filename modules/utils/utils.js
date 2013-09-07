@@ -3,6 +3,28 @@ define('utils', function () {
         return ' ' + string + ' ';
     }
     return {
+        /*
+         * Creates document fragment from specified html
+         *
+         * @param {String} html
+         *
+         * @return {DocumentFragment)}
+         */
+        createHtmlElement: function (html) {
+            var divNode = document.createElement('div'),
+            documentFragment;
+
+            divNode.insertAdjacentHTML('afterbegin', html);
+            if (divNode.childElementCount > 1) {
+                documentFragment = document.createDocumentFragment();
+                while (divNode.firstChild) {
+                    documentFragment.appendChild(divNode.firstChild);
+                }
+                return documentFragment;
+            } else {
+                return divNode.firstChild;
+            }
+        },
         delegate: function (selector, eventType, handler) {
             var classTokens = selector.split(/^\.|\s+\./).filter(Boolean).reverse();
 
