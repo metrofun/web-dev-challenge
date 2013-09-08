@@ -1,3 +1,4 @@
+/*jshint white: false */
 /**
  * UI block for tracklist item.
  * Handles play/delete buttons, based on event delegation.

@@ -1,9 +1,10 @@
+/*jshint white: false */
 /**
  * Search block.  Responsible for a search suggest,
  * and adding tracks from suggest to the playlist
  */
-define(['utils', 'playlist'], 'header-search', function(Utils, Playlist) {
-    var SUGGEST_LIMIT = 10,
+define(['utils', 'playlist'], 'header-search', function (Utils, Playlist) {
+    var SUGGEST_LIMIT = 5,
         // Stores last search value,
         // used to eliminate obsolete search queries callbacks
         currentSearchValue;
@@ -26,16 +27,16 @@ define(['utils', 'playlist'], 'header-search', function(Utils, Playlist) {
                 '<li class="header-search__suggest-item">',
                     '<img class="loader" src="modules/loader/loader.gif" />',
                 '</li>'
-            ].join('')
+            ].join('');
 
             // Search only for streamable tracks
-            SC.get('/tracks', {q: searchValue, limit: 10, streamable: true}, function(tracks) {
+            SC.get('/tracks', {q: searchValue, limit: SUGGEST_LIMIT, streamable: true}, function(tracks) {
                 // Don't display belated results of previous search queries
                 if (tracks.length && searchValue === currentSearchValue) {
                     suggestNode.innerHTML = tracks.map(function (track) {
                         return [
                             '<li class="header-search__suggest-item" data-track="',
-                            escape(JSON.stringify(track)),
+                            encodeURI(JSON.stringify(track)),
                             '">',
                             track.title,
                             track.title,
@@ -50,7 +51,7 @@ define(['utils', 'playlist'], 'header-search', function(Utils, Playlist) {
     }
 
     Utils.delegate('.header-search__suggest-item', 'touchstart', function () {
-        Playlist.add(JSON.parse(unescape(this.dataset.track)));
+        Playlist.add(JSON.parse(decodeURI(this.dataset.track)));
         clearSearch();
     });
     Utils.delegate('.header-search__input', 'input', suggestItems);

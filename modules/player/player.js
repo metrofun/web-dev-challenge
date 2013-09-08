@@ -11,8 +11,7 @@ define(['set'], 'player', function (Set) {
         playNext: function () {
             var self = this;
             Set.get(function (playlist) {
-                var nextTrackId,
-                    tracks = playlist.tracks;
+                var tracks = playlist.tracks;
 
                 tracks.some(function (track, index) {
                     if (Number(track.id) === self._trackId) {
@@ -21,7 +20,7 @@ define(['set'], 'player', function (Set) {
                         });
                         return true;
                     }
-                })
+                });
             });
         },
         /**
@@ -58,7 +57,7 @@ define(['set'], 'player', function (Set) {
                         onFinish();
                         self.playNext();
                     }
-                }, function(sound){
+                }, function (sound) {
                     if (trackId === self._trackId) {
                         console.log(sound);
                         self._sound = sound;

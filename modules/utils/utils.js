@@ -41,7 +41,7 @@ define('utils', function () {
                     result,
                     unmatchedTokens = classTokens.slice();
 
-                while (unmatchedTokens.length && element !== document) {
+                while (unmatchedTokens.length && element && element !== document) {
                     if (element.classList.contains(unmatchedTokens[0])) {
                         result = result || element;
                         unmatchedTokens.shift();
@@ -73,11 +73,11 @@ define('utils', function () {
             return null;
         },
         throttle: function (func, threshold) {
-            var timeout, lock = false;
+            var lock = false;
 
-            function unlock () {
+            function unlock() {
                 lock = false;
-            };
+            }
 
             return function () {
                 if (!lock) {
@@ -87,5 +87,5 @@ define('utils', function () {
                 }
             };
         }
-    }
+    };
 });

@@ -35,7 +35,7 @@
                 callback: callback
             });
         }
-    }
+    };
     /**
      * Defines a new module
      *
@@ -58,4 +58,4 @@
             rerunPendingRequires();
         });
     };
-})(window)
+})(window);

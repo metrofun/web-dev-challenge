@@ -55,21 +55,19 @@ define('set', function () {
         get: function (handler) {
             var self = this;
 
-            function callback (playlist) {
+            function callback(playlist) {
                 self._playlist = playlist;
                 handler(playlist);
             }
 
             if (!this._playlist) {
-                SC.get('/me/playlists', {limit: 1}, function(playlists, error) {
-                    var i;
-
-                    if (playlists[0] && playlists[0].title === this.PLAYLIST_NAME) {
+                SC.get('/me/playlists', {limit: 1}, function (playlists) {
+                    if (playlists[0] && playlists[0].title === self.PLAYLIST_NAME) {
                         callback(playlists[0]);
                     } else {
-                        SC.get('/tracks', {q: 'eminem', streamable: true}, function(tracks) {
+                        SC.get('/tracks', {q: 'eminem', streamable: true, limit: 10}, function (tracks) {
                             SC.post('/playlists', {
-                                playlist: { title: PLAYLIST_NAME, tracks: tracks }
+                                playlist: { title: self.PLAYLIST_NAME, tracks: tracks }
                             }, callback);
                         });
                     }
