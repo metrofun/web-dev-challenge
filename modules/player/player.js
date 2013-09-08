@@ -1,5 +1,13 @@
+/**
+ * Audio player. Responsible for playing/pausing/unpausing.
+ * Plays next song, after current
+ */
 define(['set'], 'player', function (Set) {
     return {
+        /**
+         * Plays next track after current.
+         * First track goes after the last
+         */
         playNext: function () {
             var self = this;
             Set.get(function (playlist) {
@@ -16,11 +24,21 @@ define(['set'], 'player', function (Set) {
                 })
             });
         },
+        /**
+         * Pause playback
+         */
         pause: function () {
             if (this._sound) {
                 this._sound.pause();
             }
         },
+        /**
+         * Plays a track by id
+         *
+         * @param {String|Number} trackId
+         * @param {Function} onStart
+         * @param {Function} onFinish
+         */
         play: function (trackId, onStart, onFinish) {
             var self = this;
 

@@ -1,3 +1,7 @@
+/**
+ * UI block for tracklist item.
+ * Handles play/delete buttons, based on event delegation.
+ */
 define(['set', 'utils', 'player'], 'track', function (Set, Utils, Player) {
     var Track = {
         /**

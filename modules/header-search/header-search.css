@@ -1,59 +1,76 @@
 .header-search {
-    font-size: 14px;
-    display: inline-block;
     position: absolute;
-    padding: 9px 15px 8px 15px;
-    transition: width .28s ease;
-    border-left: 1px solid black;
-    width: calc(100% - 84px);
+
+    display: inline-block;
+
     box-sizing: border-box;
+    width: calc(100% - 84px);
+    padding: 9px 15px 8px 15px;
+
+    transition: width .28s ease;
+
+    border-left: 1px solid black;
+
+    font-size: 14px;
 }
 .header-search__input {
-    -webkit-appearance: none;
     box-sizing: border-box;
-    -webkit-transition: width .28s ease;
+    width: 200px;
     height: 28px;
+    padding: 5px 7px;
+
+    -webkit-transition: width .28s ease;
+
     color: #666;
-    outline: 0;
     border: 0;
     border-radius: 5px;
-    padding: 5px 7px;
+    outline: 0;
     background: rgba(255,255,255,.9);
     box-shadow: 0 1px 0 rgba(0,0,0,1),inset 0 1px 0 rgba(34,25,25,.3);
-    width: 200px;
+
+    -webkit-appearance: none;
 }
 .header-search__input:focus {
     width: 100%;
 }
 .header-search__loader {
     display: block;
+
     width: 32px;
     height: 32px;
     margin: auto;
 }
 .header-search__suggest {
-    left: 0;
-    width: 100%;
     position: absolute;
     top: 100%;
-    background: red;
-    background-color: #262626;
-    border: 1px solid #333;
-    border-width: 0 1px;
-    list-style: none;
+    left: 0;
+
+    width: 100%;
     margin: 0;
     padding: 0;
+
+    list-style: none;
+
+    border: 1px solid #333;
+    border-width: 0 1px;
+    background: red;
+    background-color: #262626;
 }
 .header-search__suggest-item {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 10px 40px 10px 14px;
+
+    white-space:nowrap;
+    text-overflow:ellipsis;
+
+    color: white;
     border-top: 1px solid #333;
     border-bottom: 1px solid #111;
-    padding: 10px 40px 10px 14px;
-    color: white;
     text-shadow: 0 1px 0 #000;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    overflow: hidden;
-    position: relative;
+
     user-select: none;
     -webkit-user-select: none;
 }
@@ -62,12 +79,15 @@
     background: linear-gradient(#1a1a1a,#121212 37%,#121212 50%,#232323);
 }
 .header-search__suggest-item:active:before {
-    content: '';
     position: absolute;
-    left: 0;
     top: 0;
     bottom: -1px;
+    left: 0;
+
     width: 3px;
+
+    content: '';
+
     background: #f96401;
     background: -webkit-linear-gradient(#f96401,#ff3400);
     background: linear-gradient(#f96401,#ff3400);

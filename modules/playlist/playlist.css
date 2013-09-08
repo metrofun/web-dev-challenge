@@ -1,8 +1,14 @@
 .playlist {
-    margin-top: 48px;
     position: relative;
+
+    margin-top: 48px;
 }
 .playlist__placeholder {
-    height: 65px;
     box-sizing: border-box;
+    height: 65px;
+}
+.track_state_move + .playlist__placeholder {
+    height: 64px;
+
+    border-top: none !important;
 }

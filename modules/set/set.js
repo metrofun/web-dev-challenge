@@ -1,6 +1,15 @@
+/**
+ * Responsible for storing/updating/fetching of playlist on the server
+ */
 define('set', function () {
     return {
         PLAYLIST_NAME: 'Playlist',
+        /**
+         * Updates tracks of the playlist
+         *
+         * @param {Array} tracks
+         * @param {Function} onPut Success callback
+         */
         putTracks: function (tracks, onPut) {
             this._playlist.tracks = tracks;
             SC.put(
@@ -17,14 +26,32 @@ define('set', function () {
                 onPut
             );
         },
+        /**
+         * Adds first track, and saves changes
+         *
+         * @param {Object} track
+         * @param {onAdd} Success callback
+         */
         prependTrack: function (track, onAdd) {
             this.putTracks([track].concat(this._playlist.tracks), onAdd);
         },
+        /**
+         * Removes track by id, nd saves changes
+         *
+         * @param {String|Number} trackId
+         * @param {Function} onRemove Success callback
+         */
         removeTrack: function (trackId, onRemove) {
             this.putTracks(this._playlist.tracks.filter(function (track) {
                 return track.id !== Number(trackId);
-            }), onAdd);
+            }), onRemove);
         },
+        /**
+         * Retrieves 'Playlist' set from server,
+         * or creates one if it does't exist.
+         *
+         * @param {Function} handler Will be called with playlist object, as a first argument
+         */
         get: function (handler) {
             var self = this;
 

@@ -1,9 +1,12 @@
 .track {
-    background-color: white;
+    position: relative;
+
+    box-sizing: border-box;
     width: 100%;
     padding: 5px 6px;
-    box-sizing: border-box;
-    position: relative;
+
+    background-color: white;
+
     user-select: none;
     -webkit-user-select: none;
 }
@@ -19,10 +22,10 @@
     25%, 75% {opacity: 0;}
 }
 .track_state_removal {
-    -webkit-backface-visibility: hidden;
-
     -webkit-animation: removal 1s infinite;
     animation: removal 1s infinite;
+
+    -webkit-backface-visibility: hidden;
 }
 .track_state_playing .button_type_play:before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAWElEQVR42u2MMQoAIQwE7fOCa7f3V77lvp1LwEpdCGhxQgIDYWCnqOpRZvkUMWDUDtwxHwnCaMbr9B/MR4JVh3PHfAYzmMHfBrEYgvlIUBZDYZ4EN7gu+AGUOJJJchR7SwAAAABJRU5ErkJggg==);
@@ -32,31 +35,38 @@
 }
 .track-logo {
     display: inline-block;
+
     background-color: #555;
 }
 .track-logo__image {
+    display: block;
+
     width: 50px;
     height: 50px;
-    display: block;
 }
 .track__content {
-    margin: 0 4px;
-    vertical-align: top;
     display: inline-block;
-    width: calc(100% - 200px);
+
     box-sizing: border-box;
+    width: calc(100% - 200px);
+    margin: 0 4px;
+
+    vertical-align: top;
 }
 .track__owner {
     color: #999;
+
     font-size: 12px;
 }
 .track__controls {
     float: right;
 }
 .track__controls:before {
-    content: '';
     display: inline-block;
+
     height: 50px;
+
+    content: '';
     vertical-align: middle;
 }
 .track__controls .button:last-child {

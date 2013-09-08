@@ -12,6 +12,13 @@
     }
 
 
+    /**
+     * Calls callback with all dependencies resolved,
+     * and passed as arguments to the callback
+     *
+     * @param {Array} [dependences] Array of module names
+     * @param {Function} callback
+     */
     global.require = function (dependences, callback) {
         var resolvedDeps = [];
 
@@ -29,6 +36,14 @@
             });
         }
     }
+    /**
+     * Defines a new module
+     *
+     * @param {Array} [dependences
+     * @param {String} name Module name
+     * @param {Function} factory Module factory,
+     * will be called with all dependencies passed, as arguments
+     */
     global.define = function () {
         var args = [].slice.apply(arguments),
             factory = args.pop(),

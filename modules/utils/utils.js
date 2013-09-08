@@ -1,9 +1,6 @@
 define('utils', function () {
-    function addWhiteSpace(string) {
-        return ' ' + string + ' ';
-    }
     return {
-        /*
+        /**
          * Creates document fragment from specified html
          *
          * @param {String} html
@@ -25,6 +22,17 @@ define('utils', function () {
                 return divNode.firstChild;
             }
         },
+        /*
+         * Attach a handler to one or more events
+         * for all elements that match the selector,
+         * now or in the future.
+         *
+         * Accepts only non-adjoining class selectors.
+         *
+         * @param {String} selector
+         * @param {String} eventType
+         * @param {Function} handler
+         */
         delegate: function (selector, eventType, handler) {
             var classTokens = selector.split(/^\.|\s+\./).filter(Boolean).reverse();
 
@@ -45,6 +53,14 @@ define('utils', function () {
                 }
             });
         },
+        /**
+         * Returns parent by className
+         *
+         * @param {Object} element Subject node, for searching parents
+         * @param {String} parentClass
+         *
+         * @returns {Object|null} Returns null, of none parents match
+         */
         getParentByClassName: function (element, parentClass) {
             var parentNode = element.parentNode;
 
