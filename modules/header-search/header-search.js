@@ -21,7 +21,7 @@ define(['utils', 'playlist'], 'header-search', function(Utils, Playlist) {
         //show loader, while loading
         suggestNode.innerHTML = [
             '<li class="header-search__suggest-item">',
-                '<img class="header-search__loader" src="/modules/header-search/header-search__loader.gif"',
+                '<img class="header-search__loader" src="modules/header-search/header-search__loader.gif"',
             '</li>'
         ].join('')
 
