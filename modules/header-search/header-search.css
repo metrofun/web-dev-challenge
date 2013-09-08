@@ -6,8 +6,8 @@
     display: inline-block;
 
     box-sizing: border-box;
-    width: -webkit-calc(100% - 84px);
-    width: calc(100% - 84px);
+    width: -webkit-calc(100% - 85px);
+    width: calc(100% - 85px);
     padding: 9px 15px 8px 15px;
 
     transition: width .28s ease;
