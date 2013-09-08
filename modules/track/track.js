@@ -45,13 +45,13 @@ define(['set', 'utils', 'player'], 'track', function (Set, Utils, Player) {
         }
     };
 
-    Utils.delegate('.track .button_type_play', 'touchend', function () {
+    Utils.delegate('.track .button_type_play', 'touchstart', function () {
         var trackNode = Utils.getParentByClassName(this, 'track');
 
         Track.play(trackNode);
     });
 
-    Utils.delegate('.playlist .button_type_remove', 'touchend', function () {
+    Utils.delegate('.playlist .button_type_remove', 'touchstart', function () {
         var trackNode = Utils.getParentByClassName(this, 'track'),
             trackId = trackNode.dataset.id;
 

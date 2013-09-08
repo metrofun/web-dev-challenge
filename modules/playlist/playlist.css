@@ -1,7 +1,5 @@
 .playlist {
     position: relative;
-
-    margin-top: 48px;
 }
 .playlist__placeholder {
     box-sizing: border-box;

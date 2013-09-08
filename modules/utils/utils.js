@@ -71,6 +71,21 @@ define('utils', function () {
                 parentNode = parentNode.parentNode;
             }
             return null;
+        },
+        throttle: function (func, threshold) {
+            var timeout, lock = false;
+
+            function unlock () {
+                lock = false;
+            };
+
+            return function () {
+                if (!lock) {
+                    func.apply(this, arguments);
+                    setTimeout(unlock, threshold);
+                    lock = true;
+                }
+            };
         }
-    };
+    }
 });

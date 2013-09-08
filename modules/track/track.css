@@ -3,6 +3,7 @@
 
     box-sizing: border-box;
     width: 100%;
+    -webkit-height: 60px;
     padding: 5px 6px;
 
     background-color: white;
@@ -12,6 +13,9 @@
 }
 .track_state_move {
     z-index: 1;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #f2f2f2;
+    box-shadow: 0 0 6px rgba(0,0,0,.4);
 }
 @-webkit-keyframes removal {
     0%, 50%, 100% {opacity: 1;}
@@ -46,9 +50,13 @@
 }
 .track__content {
     display: inline-block;
+    overflow: hidden;
 
     box-sizing: border-box;
+    width: 150px;
+    width: -webkit-calc(100% - 200px);
     width: calc(100% - 200px);
+    max-height: 50px;
     margin: 0 4px;
 
     vertical-align: top;

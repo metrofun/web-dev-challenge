@@ -19,7 +19,9 @@
     "dojo"          : false,
 
     "predef"        : [
-        'SC'
+        "SC",
+        "define",
+        "require"
     ],
 
 

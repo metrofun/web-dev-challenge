@@ -9,8 +9,10 @@ define(['utils', 'playlist'], 'header-search', function(Utils, Playlist) {
         currentSearchValue;
 
     function clearSearch() {
-        this.value = '';
-        this.parentNode.querySelector('.header-search__suggest').innerHTML = '';
+        var input = document.querySelector('.header-search__input');
+
+        input.value = '';
+        input.parentNode.querySelector('.header-search__suggest').innerHTML = '';
     }
     function suggestItems() {
         var suggestNode = this.parentNode.querySelector('.header-search__suggest'),
@@ -18,33 +20,38 @@ define(['utils', 'playlist'], 'header-search', function(Utils, Playlist) {
 
         currentSearchValue = searchValue;
 
-        //show loader, while loading
-        suggestNode.innerHTML = [
-            '<li class="header-search__suggest-item">',
-                '<img class="header-search__loader" src="modules/header-search/header-search__loader.gif"',
-            '</li>'
-        ].join('')
+        if (this.value !== '') {
+            //show loader, while loading
+            suggestNode.innerHTML = [
+                '<li class="header-search__suggest-item">',
+                    '<img class="loader" src="modules/loader/loader.gif" />',
+                '</li>'
+            ].join('')
 
-        // Search only for streamable tracks
-        SC.get('/tracks', {q: searchValue, limit: 10, streamable: true}, function(tracks) {
-            // Don't display belated results of previous search queries
-            if (tracks.length && searchValue === currentSearchValue) {
-                suggestNode.innerHTML = tracks.map(function (track) {
-                    return [
-                        '<li class="header-search__suggest-item" data-track="',
-                        escape(JSON.stringify(track)),
-                        '">',
-                        track.title,
-                        track.title,
-                        '</li>'
-                    ].join('');
-                }).join('');
-            }
-        });
+            // Search only for streamable tracks
+            SC.get('/tracks', {q: searchValue, limit: 10, streamable: true}, function(tracks) {
+                // Don't display belated results of previous search queries
+                if (tracks.length && searchValue === currentSearchValue) {
+                    suggestNode.innerHTML = tracks.map(function (track) {
+                        return [
+                            '<li class="header-search__suggest-item" data-track="',
+                            escape(JSON.stringify(track)),
+                            '">',
+                            track.title,
+                            track.title,
+                            '</li>'
+                        ].join('');
+                    }).join('');
+                }
+            });
+        } else {
+            clearSearch();
+        }
     }
 
     Utils.delegate('.header-search__suggest-item', 'touchstart', function () {
         Playlist.add(JSON.parse(unescape(this.dataset.track)));
+        clearSearch();
     });
     Utils.delegate('.header-search__input', 'input', suggestItems);
     Utils.delegate('.header-search__input', 'touchstart', function () {

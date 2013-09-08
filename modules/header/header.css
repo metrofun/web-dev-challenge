@@ -8,8 +8,9 @@
     height: 48px;
 
     border-top: 1px solid #2a2a2a;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(56,56,56,1)), color-stop(50%,rgba(52,52,52,1)), color-stop(61%,rgba(46,46,46,1)), color-stop(93%,rgba(35,35,35,1)), color-stop(96%,rgba(0,0,0,1)), color-stop(98%,rgba(0,0,0,0.32)), color-stop(100%,rgba(0,0,0,0.18))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(56,56,56,1) 0%,rgba(52,52,52,1) 50%,rgba(46,46,46,1) 61%,rgba(35,35,35,1) 93%,rgba(0,0,0,1) 96%,rgba(0,0,0,0.32) 98%,rgba(0,0,0,0.18) 100%); /* Chrome10+,Safari5.1+ */
     background: linear-gradient(to bottom, rgba(56,56,56,1) 0%,rgba(52,52,52,1) 50%,rgba(46,46,46,1) 61%,rgba(37,37,37,1) 91%,rgba(35,35,35,1) 93%,rgba(0,0,0,1) 96%,rgba(0,0,0,0.32) 98%,rgba(0,0,0,0.18) 100%);
-    background: -webkit-linear-gradient(to bottom, rgba(56,56,56,1) 0%,rgba(52,52,52,1) 50%,rgba(46,46,46,1) 61%,rgba(37,37,37,1) 91%,rgba(35,35,35,1) 93%,rgba(0,0,0,1) 96%,rgba(0,0,0,0.32) 98%,rgba(0,0,0,0.18) 100%);
 
     font-size: 0;
 }

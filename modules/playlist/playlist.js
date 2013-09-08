@@ -3,15 +3,22 @@
  */
 define(['track', 'set', 'utils'], 'playlist', function (Track, Set, Utils) {
     var ITEM_HEIGHT = 65,
+        DRAG_CAPTURE_DURATION = 250, //px
+        DRAG_MOVE_THRESHOLD = 3, //px
+        DRAG_MOVE_THROTTLE = 150, //ms
 
+        // cache variables, used for optimizations
+        placeholderOffsetTop, parentNodeOffsetHeight,
         startY,
+        lastClientY,
         startOffsetTop,
         // marker-node to be placed instead currently moved one
         placeholder,
         // item shift when drag'n'dropped
         indexShift,
         // if of drag'n'dropped track
-        shiftedTrackId;
+        shiftedTrackId,
+        throttledDragMove;
 
     function savePermute() {
         if (indexShift !== 0) {
@@ -38,59 +45,100 @@ define(['track', 'set', 'utils'], 'playlist', function (Track, Set, Utils) {
         }
     }
 
-    function dragStop () {
+    function dragStop() {
         this.style.position = '';
         this.style.top = '';
         this.classList.remove('track_state_move');
-        this.removeEventListener('touchmove', dragMove);
+        this.removeEventListener('touchmove', throttledDragMove);
         this.removeEventListener('touchend', dragStop);
+        this.removeEventListener('touchcancel', dragStop);
         this.parentNode.replaceChild(this, placeholder);
         savePermute();
     }
-    function dragMove (e) {
-        var parentNode = this.parentNode,
-            diff = (e.targetTouches[0].clientY - startY),
-            offsetTop = startOffsetTop + diff;
+    function dragMove(e) {
+        e.preventDefault();
+        if (Math.abs(lastClientY - e.targetTouches[0].clientY) > DRAG_MOVE_THRESHOLD) {
+            var parentNode = this.parentNode,
+                diff = (e.targetTouches[0].clientY - startY),
+                offsetTop = startOffsetTop + diff;
 
-        // don't exit playlist area
-        if (offsetTop > 0 && offsetTop < parentNode.offsetHeight - ITEM_HEIGHT) {
-            this.style.top = offsetTop + 'px';
+            lastClientY = e.targetTouches[0].clientY;
 
-            if (Math.abs(placeholder.offsetTop - offsetTop) > Math.ceil(ITEM_HEIGHT / 2)) {
-                startY = e.targetTouches[0].clientY;
-                startOffsetTop += diff;
-                if (diff > 0) {
-                    indexShift++;
-                    parentNode.insertBefore(
-                        placeholder,
-                        placeholder.nextSibling && placeholder.nextSibling.nextSibling
-                        );
-                } else {
-                    // Don't count shift,
-                    // when a pivot point is the current node
-                    if (placeholder.previousSibling !== this) {
-                        indexShift--;
+            // don't exit playlist area
+            if (offsetTop > 0 && offsetTop < parentNodeOffsetHeight - ITEM_HEIGHT) {
+                this.style.top = offsetTop + 'px';
+
+                if (Math.abs(placeholderOffsetTop - offsetTop) > Math.ceil(ITEM_HEIGHT / 2)) {
+                    startY = e.targetTouches[0].clientY;
+                    startOffsetTop += diff;
+                    if (diff > 0) {
+                        indexShift++;
+                        parentNode.insertBefore(
+                            placeholder,
+                            placeholder.nextSibling && placeholder.nextSibling.nextSibling
+                            );
+                    } else {
+                        // Don't count shift,
+                        // when a pivot point is the current node
+                        if (placeholder.previousSibling !== this) {
+                            indexShift--;
+                        }
+                        parentNode.insertBefore(placeholder, placeholder.previousSibling);
                     }
-                    parentNode.insertBefore(placeholder, placeholder.previousSibling);
+                    placeholderOffsetTop = placeholder.offsetTop;
                 }
+            } else {
+                dragStop.call(this);
             }
-        } else {
-            dragStop.call(this);
         }
     }
+    throttledDragMove = Utils.throttle(dragMove, DRAG_MOVE_THROTTLE);
     function dragStart(e) {
+        parentNodeOffsetHeight = this.parentNode.offsetHeight;
         indexShift = 0;
         startY = e.targetTouches[0].clientY;
+        lastClientY = startY;
         shiftedTrackId = this.dataset.id;
         startOffsetTop = this.offsetTop;
         placeholder = Utils.createHtmlElement('<div class="playlist__placeholder track"></div>');
         this.classList.add('track_state_move');
         this.style.position = 'absolute';
-        this.addEventListener('touchmove', dragMove);
+        this.addEventListener('touchmove', throttledDragMove);
         this.addEventListener('touchend', dragStop);
+        this.addEventListener('touchcancel', dragStop);
         this.parentNode.insertBefore(placeholder, this.nextSibling);
-    };
-    Utils.delegate('.playlist .track', 'touchstart', dragStart);
+        placeholderOffsetTop = placeholder.offsetTop;
+    }
+
+    Utils.delegate('.playlist .track', 'touchstart', function (e) {
+        var startX = e.targetTouches[0].clientX,
+            startY = e.targetTouches[0].clientY,
+            timeoutId;
+
+        function onMove(e) {
+            if (Math.abs(startX - e.targetTouches[0].clientX) > DRAG_MOVE_THRESHOLD
+            || Math.abs(startY - e.targetTouches[0].clientY) > DRAG_MOVE_THRESHOLD) {
+                onCancel();
+            }
+        }
+        // cancel capture
+        function onCancel() {
+            clearTimeout(timeoutId);
+            this.removeEventListener('touchmove', onMove);
+            this.removeEventListener('touchend', onCancel);
+            this.removeEventListener('touchcancel', onCancel);
+        }
+
+        timeoutId = setTimeout(function () {
+            //captured
+            dragStart.call(this, e);
+            this.removeEventListener('touchmove', onMove);
+        }.bind(this), DRAG_CAPTURE_DURATION);
+
+        this.addEventListener('touchmove', onMove);
+        this.addEventListener('touchend', onCancel);
+        this.addEventListener('touchcancel', onCancel);
+    });
 
     return {
         /**

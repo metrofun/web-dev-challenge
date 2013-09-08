@@ -60,6 +60,7 @@ define(['set'], 'player', function (Set) {
                     }
                 }, function(sound){
                     if (trackId === self._trackId) {
+                        console.log(sound);
                         self._sound = sound;
                         self._sound.play();
                         onStart();
