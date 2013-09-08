@@ -7,7 +7,7 @@
     box-sizing: border-box;
     height: 65px;
 }
-.track_state_move + .playlist__placeholder {
+.track_state_move:first-child + .playlist__placeholder {
     height: 64px;
 
     border-top: none !important;
