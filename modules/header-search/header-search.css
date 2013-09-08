@@ -2,12 +2,11 @@
     position: absolute;
     top: 0;
     right: 0;
+    left: 85px;
 
     display: inline-block;
 
     box-sizing: border-box;
-    width: -webkit-calc(100% - 85px);
-    width: calc(100% - 85px);
     padding: 9px 15px 8px 15px;
 
     transition: width .28s ease;
