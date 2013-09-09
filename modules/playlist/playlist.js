@@ -4,8 +4,8 @@
 define(['track', 'set', 'utils'], 'playlist', function (Track, Set, Utils) {
     var ITEM_HEIGHT = 65,
         DRAG_CAPTURE_DURATION = 250, //px
-        DRAG_MOVE_THRESHOLD = 3, //px
-        DRAG_MOVE_THROTTLE = 150, //ms
+        DRAG_MOVE_THRESHOLD = 1, //px
+        DRAG_MOVE_THROTTLE = 200, //ms
 
         // cache variables, used for optimizations
         placeholderOffsetTop, parentNodeOffsetHeight,
